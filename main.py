@@ -36,30 +36,36 @@ def subscribe_event(event_name):
     )
 
 
-app = Flask(__name__)
-app.config['JSON_AS_ASCII'] = False
+def start_api():
+    app = Flask(__name__)
+    app.config['JSON_AS_ASCII'] = False
 
+    # 向这个接口发起一次请求，即可创建一次预约任务
+    # GET http://localhost:9000/badminton-booking?token=0916
 
-@app.route("/badminton-booking", methods=["GET"])
-def badminton_booking_handler():
-    token = request.args.get("token")
-    if token != "0916":
-        return jsonify({"msg": "forbidden!"})
+    @app.route("/badminton-booking", methods=["GET"])
+    def badminton_booking_handler():
+        token = request.args.get("token")
+        if token != "0916":
+            return jsonify({"msg": "forbidden!"})
 
-    try:
-        thread.Thread(
-            name="my-task",
-            target=cron.cron_task_once,
-            args=(booking_start, "12:30")).start()
-    except Exception as e:
-        return jsonify({"msg": "mission creation failed,{}".format(e)})
+        try:
+            thread.Thread(
+                name="my-task",
+                target=cron.cron_task_once,
+                args=(booking_start, "12:30")).start()
+        except Exception as e:
+            return jsonify({"msg": "mission creation failed,{}".format(e)})
 
-    return jsonify({"msg": "booking mission created!"})
+        return jsonify({"msg": "booking mission created!"})
+
+    app.run("0.0.0.0", "9000", threaded=True)
 
 
 def main():
     if __name__ == '__main__':
-        app.run("0.0.0.0", "9000", threaded=True)
+        subscribe_event(event_name)
+        start_api()
 
 
 main()
