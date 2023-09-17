@@ -18,7 +18,7 @@ class BadmintonBooking(object):
         # self.booking_time = "17:30-19:30"
         # self.booking_field_number = 6
 
-        print(self.username, self.booking_time, self.booking_field_number)
+        # print(self.username, self.booking_time, self.booking_field_number)
 
         self.client = requests.session()
 

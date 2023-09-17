@@ -31,15 +31,14 @@ class UserInfo(object):
         return self.__booking_field_number
 
 
-my_user_info = None
+global my_user_info
 
 
-def init_my_user_info():
+def init_or_update_my_user_info():
     with open('my_user_info.json', encoding='utf-8') as f:
         content = f.read()
         json_data = json.loads(content)
-        global my_user_info
-        my_user_info = UserInfo(
+        ui = UserInfo(
             json_data['username'],
             json_data['password'],
             json_data['phone'],
@@ -48,8 +47,11 @@ def init_my_user_info():
             json_data['booking_field_number'],
         )
 
+        global my_user_info
+        my_user_info = ui
+
         f.close()
 
 
 # 注意初始化用户信息
-init_my_user_info()
+init_or_update_my_user_info()
