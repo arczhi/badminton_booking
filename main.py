@@ -11,6 +11,7 @@ import json
 
 TOKEN = "0916"
 event_name = "badminton_booking"
+regular_time = "12:30"
 
 # global my_user_info
 
@@ -60,10 +61,12 @@ def start_api():
               module.user_info.my_user_info.get_booking_field_number())
 
         try:
-            thread.Thread(
+            t = thread.Thread(
                 name="my-task",
                 target=cron.cron_task_once,
-                args=(booking_start, "12:30")).start()
+                args=(booking_start, regular_time))
+            thread.append_to_thread_list(t)
+
         except Exception as e:
             return jsonify({"msg": "mission creation failed,{}".format(e)})
 
@@ -71,6 +74,7 @@ def start_api():
 
     # 个人信息页面
     # GET http://localhost:9000/user-info/index.html?token=0916
+
     @app.route("/user-info/<path:filename>", methods=["GET"])
     def user_info_page(filename):
         token = request.args.get("token")

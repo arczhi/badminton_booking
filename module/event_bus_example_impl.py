@@ -21,6 +21,8 @@ class EventBusExample(EventBusInterface):
 
     # self functions
     def execute_consumer_function(self, event_name):
+        if message_map.get(event_name) == None:
+            return
         for func in consumer_function_map[event_name]:
             func(message_map[event_name])
 

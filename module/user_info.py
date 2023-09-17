@@ -30,6 +30,9 @@ class UserInfo(object):
     def get_booking_field_number(self):
         return self.__booking_field_number
 
+    def set_booking_field_number(self, field_number):
+        self.__booking_field_number = field_number
+
 
 global my_user_info
 

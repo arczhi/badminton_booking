@@ -9,7 +9,7 @@ class Thread (threading.Thread):
         self.__args = args
         # 初始化父类
         super().__init__(target=self.__target,
-                         args=self.__args, daemon=True)  # daemon=True 主线程退出的时候，子线程一并退出
+                         args=self.__args)  # daemon=True 主线程退出的时候，子线程一并退出
 
     def get_name(self):
         return self.__name
@@ -27,10 +27,23 @@ def append_to_thread_list(*threads):
 def start_thread_list():
     for t in thread_list:
         t.start()
-        print("{} [{}] started !".format(time.strftime(
+        print("{} [{}] thread started !".format(time.strftime(
             time_layout, time.localtime()), t.get_name()))
+    # 启动线程后，清空列表
+    thread_list.clear()
 
     # for t in thread_list:
     #     t.join()
     #     print("{} [{}] exited !".format(time.strftime(
     #         time_layout, time.localtime()), t.get_name()))
+
+
+def listen_list_for_starting_thread():
+    while True:
+        start_thread_list()
+        time.sleep(0.01)
+
+
+print("[ listening thread_list ]")
+Thread("listening-for-thread-list",
+       target=listen_list_for_starting_thread).start()

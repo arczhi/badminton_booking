@@ -17,7 +17,7 @@ def cron_task(task, time_string="12:30"):
         schedule.run_pending()
         time.sleep(0.01)
 
-# execute task once
+# execute task just one time
 
 
 def cron_task_once(task, time_string="12:30"):

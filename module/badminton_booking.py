@@ -4,6 +4,8 @@ import re
 import json
 import datetime
 import time
+import tools.thread as thread
+import random
 
 
 class BadmintonBooking(object):
@@ -53,6 +55,21 @@ class BadmintonBooking(object):
 
     # core function
     def exec(self):
+        # 一次预定7个场次
+        for num in range(7):
+            booking_field_number = num+1
+
+            t = thread.Thread(
+                name="field-{}-task".format(booking_field_number),
+                target=self.single_exec,
+                args=(booking_field_number,)  # 加入逗号，保证元组可迭代
+            )
+            thread.append_to_thread_list(t)
+
+    def single_exec(self, booking_field_number):
+
+        # 随机等待
+        time.sleep(0.1*random.uniform(0, 100))
 
         self.__login()
 
@@ -67,7 +84,7 @@ class BadmintonBooking(object):
         data_template = self.__get_booking_data_template(step_id)
 
         request_data = self.__construct_booking_request_data(
-            data_template, step_id)
+            data_template, step_id, booking_field_number)
 
         self.__send_booking_request_and_confirm_application(request_data)
 
@@ -163,7 +180,7 @@ class BadmintonBooking(object):
 
         return choice_list
 
-    def __construct_booking_request_data(self, data_json, step_id):
+    def __construct_booking_request_data(self, data_json, step_id, booking_field_number):
         # get data
         form_data = data_json['data']
 
@@ -204,7 +221,7 @@ class BadmintonBooking(object):
         # form_data['fieldXZ'] = [True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,
         #                         False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
         form_data['fieldXZ'] = self.__specify_time_and_field(
-            self.booking_time, self.booking_field_number)
+            self.booking_time, booking_field_number)
         print(form_data['fieldXZ'])
 
         form_data['fieldFZPD'] = "师生", "师生", "师生", "师生", "师生", "师生", "师生", "师生", "师生", "师生", "师生", "师生", "师生", "师生", "师生", "师生", "师生", "师生", "师生",

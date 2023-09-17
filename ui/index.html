@@ -60,7 +60,8 @@
   </div>
 
   <script>
-    var baseURL = "http://" + window.location.host //获取当前页面的host eg. localhost:9000
+    var baseURL = "http://" + window.location.host //获取当前页面的host eg. localhost:9000 
+    // 获取协议名称 console.log(window.location.protocol) eg.http
 
     new Vue({
       el: '#app',
@@ -143,6 +144,7 @@
               console.log(error);
               this.$message.error('任务创建失败 ', error);
             });
+          // this.$message.success('任务创建成功')
         },
       }
     })
