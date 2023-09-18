@@ -69,7 +69,7 @@ class BadmintonBooking(object):
     def single_exec(self, booking_field_number):
 
         # 随机等待
-        time.sleep(0.1*random.uniform(0, 100))
+        time.sleep(1*random.uniform(0, 20))
 
         self.__login()
 

@@ -60,8 +60,9 @@
   </div>
 
   <script>
-    var baseURL = "http://" + window.location.host //获取当前页面的host eg. localhost:9000 
+    var baseURL = window.location.protocol + "//" + window.location.host
     // 获取协议名称 console.log(window.location.protocol) eg.http
+    // 获取当前页面的host eg. localhost:9000 
 
     new Vue({
       el: '#app',

@@ -57,6 +57,8 @@ def start_api():
         if token != TOKEN:
             return jsonify({"msg": "forbidden!"})
 
+        init_or_update_my_user_info()
+
         print(module.user_info.my_user_info.get_username(),  module.user_info.my_user_info.get_booking_time(),
               module.user_info.my_user_info.get_booking_field_number())
 

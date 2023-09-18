@@ -38,22 +38,29 @@ global my_user_info
 
 
 def init_or_update_my_user_info():
-    with open('my_user_info.json', encoding='utf-8') as f:
-        content = f.read()
-        json_data = json.loads(content)
-        ui = UserInfo(
-            json_data['username'],
-            json_data['password'],
-            json_data['phone'],
-            json_data['email'],
-            json_data['booking_time'],
-            json_data['booking_field_number'],
-        )
+    global my_user_info
 
-        global my_user_info
-        my_user_info = ui
+    try:
+        with open('my_user_info.json', encoding='utf-8') as f:
+            content = f.read()
+            json_data = json.loads(content)
+            ui = UserInfo(
+                json_data['username'],
+                json_data['password'],
+                json_data['phone'],
+                json_data['email'],
+                json_data['booking_time'],
+                json_data['booking_field_number'],
+            )
 
-        f.close()
+            # global my_user_info
+            my_user_info = ui
+
+            f.close()
+    except Exception as e:
+
+        my_user_info = UserInfo("", "", "", "", "", 6)
+        print("json file open error: " + str(e))
 
 
 # 注意初始化用户信息

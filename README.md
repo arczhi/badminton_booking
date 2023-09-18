@@ -9,15 +9,14 @@ USAGE:
 pip install -r requirements.txt
 ~~~
 
-2.update my_user_info.json.tmpl to my_user_info.json and implement your personal information
+2.start the service
 
-3.start the service
 ~~~
 python main.py
 ~~~
 
-4.call the api
+3.visit the page
 
 ~~~
-GET http://localhost:9000/badminton-booking?token=0916
+http://localhost:9000/user-info/index.html?token=0916
 ~~~
